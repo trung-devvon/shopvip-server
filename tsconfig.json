@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true, // Bật kiểm tra kiểu nghiêm ngặt
+    "noImplicitAny": true, // Bắt buộc khai báo kiểu rõ ràng
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node", // Thêm để xử lý module đúng cách
+    "resolveJsonModule": true,
+    "sourceMap": true, // Thêm để hỗ trợ debug
+    "baseUrl": ".", // Thêm để hỗ trợ import tuyệt đối
+    "paths": {
+      "*": ["src/*"] // Hỗ trợ import từ src
+    },
+    "types": [
+      "node", // Định nghĩa kiểu cho Node.js
+      "express" // Định nghĩa kiểu cho Express
+    ]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
