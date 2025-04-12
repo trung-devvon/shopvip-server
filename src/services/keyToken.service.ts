@@ -1,25 +1,28 @@
 import { Types } from "mongoose";
 import KeyTokenModel from "../models/keyToken.model";
-import { StatusCodes } from "http-status-codes";
+import HandleError from "@middlewares/error";
 
 class KeyTokenService {
-    async createKeyToken({ userId, publicKey }: { userId: Types.ObjectId, publicKey: any }) {
-        try {
-            const keyToken = await KeyTokenModel.create({
-                user: userId,
-                publicKey,
-            });
+  async createKeyToken({
+    userId,
+    publicKey,
+    privateKey,
+  }: {
+    userId: Types.ObjectId;
+    publicKey: any;
+    privateKey: any;
+  }) {
+    const keyToken = await KeyTokenModel.create({
+      user: userId,
+      publicKey,
+      privateKey,
+    });
 
-            if (!keyToken) {
-                const error = new Error("Failed to create key token");
-                (error as any).statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
-                throw error;
-            }
-
-            return keyToken ? keyToken.publicKey : null;
-        } catch (error) {
-            throw error;
-        }
+    if (!keyToken) {
+      throw HandleError.internal("Failed to create key token");
     }
+
+    return keyToken ? keyToken.publicKey : null;
+  }
 }
 export default new KeyTokenService();

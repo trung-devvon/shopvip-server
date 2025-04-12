@@ -4,13 +4,11 @@ import { Types } from "mongoose";
 
 const createTokenPair = (userId: Types.ObjectId, email: string, publicKey: any, privateKey: any) => {
   try {
-    const accessToken = jwt.sign({ userId, email }, privateKey, {
-      algorithm: "RS256",
+    const accessToken = jwt.sign({ userId, email }, publicKey, {
       expiresIn: "2 days",
     });
 
     const refreshToken = jwt.sign({ userId, email }, privateKey, {
-      algorithm: "RS256",
       expiresIn: "7 days",
     });
 

@@ -1,10 +1,12 @@
 import { StatusCodes } from "http-status-codes";
 import ShopModel from "../models/shop.model";
 import bcrypt from "bcrypt";
-import crypto from "crypto";
+// import crypto from "crypto";
+import crypto from "node:crypto";
 import keyTokenService from "./keyToken.service";
 import { createTokenPair } from "../auth/token";
 import { getInfoData } from "../utils/fn";
+import { ROLES } from "../utils/constants";
 
 class AccessService {
   async signup({
@@ -29,25 +31,28 @@ class AccessService {
         email,
         password: hashPassword,
         name,
-        roles: ["SHOP"],
+        roles: [ROLES.SHOP],
       });
       // check new shop is true
       if (newShop) {
-        const { privateKey, publicKey } = crypto.generateKeyPairSync("rsa", {
-          modulusLength: 4096,
-          publicKeyEncoding: {
-            type: "pkcs1",
-            format: "pem",
-          },
-          privateKeyEncoding: {
-            type: "pkcs8",
-            format: "pem",
-          },
-        });
+        // const { privateKey, publicKey } = crypto.generateKeyPairSync("rsa", {
+        //   modulusLength: 4096,
+        //   publicKeyEncoding: {
+        //     type: "pkcs1",
+        //     format: "pem",
+        //   },
+        //   privateKeyEncoding: {
+        //     type: "pkcs8",
+        //     format: "pem",
+        //   },
+        // });
+        const publicKey = crypto.randomBytes(64).toString("hex");
+        const privateKey = crypto.randomBytes(64).toString("hex");
 
         const publicKeyString = await keyTokenService.createKeyToken({
           userId: newShop._id,
-          publicKey: publicKey,
+          publicKey,
+          privateKey
         });
         if (!publicKeyString) {
           throw new Error("public key error");

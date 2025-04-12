@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node dist/server.js",
-    "dev": "NODE_ENV=development ts-node-dev --respawn --transpile-only src/server.ts",
+    "start": "NODE_ENV=production node -r tsconfig-paths/register dist/server.js",
+    "dev": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/server.ts",
     "build": "tsc",
     "lint": "eslint . --ext .ts"
   },
@@ -44,6 +44,7 @@
     "@types/node": "^22.14.0",
     "nodemon": "^3.1.9",
     "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.3"
   }
 }
